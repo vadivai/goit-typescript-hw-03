@@ -16,51 +16,50 @@
 // Після реалізації всіх класів створіть об'єкти для кожного класу та спробуйте відтворити сценарій, в якому людина приходить додому.
 
 class Key {
-  constructor(private signature: number) {
-    this.signature = Math.random();
-  }
-  getSignature() {
+  private signature: number = Math.random();
+
+  getSignature(): number {
     return this.signature;
   }
 }
 
 class Person {
-  constructor(private key: Key) {
-    this.key = key;
-  }
-  getKey() {
+  constructor(private key: Key) {}
+
+  getKey(): Key {
     return this.key;
   }
 }
 
 abstract class House {
-  private door: boolean = false;
+  protected door: boolean = false;
   private tenants: Person[] = [];
-  constructor(private key: Key) {}
+
+  constructor(protected key: Key) {}
 
   comeIn(tenant: Person) {
     if (this.door) {
       this.tenants.push(tenant);
     }
   }
-  abstract openDoor(key: Key) {}
+  abstract openDoor(key: Key): void;
 }
 
 class MyHouse extends House {
-  openDoor(key: Key) {
-    if (key.getSignature() === this.key.getSignature) {
+  openDoor(key: Key): void {
+    if (key.getSignature() === this.key.getSignature()) {
       this.door = true;
     }
   }
 }
 
-// const key = new Key();
+const key = new Key();
 
-// const house = new MyHouse(key);
-// const person = new Person(key);
+const house = new MyHouse(key);
+const person = new Person(key);
 
-// house.openDoor(person.getKey());
+house.openDoor(person.getKey());
 
-// house.comeIn(person);
+house.comeIn(person);
 
-// export {};
+export {};
